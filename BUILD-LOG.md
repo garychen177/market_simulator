@@ -40,5 +40,5 @@
 
 ## Round 3 changes
 - Context screen: "Choose your farmer" only appears after the second card has been viewed.
-- "Skip mini-game" button. Decision: skipping costs a fixed number of crop units (setting, default 1, capped per path) so skipping is not a free win.
+- "Skip mini-game" button. Skipping loses no crops (CONFIG.minigame.skipLossUnits = 0); it is not a player setting.
 - Settings page (title/context screens, top bar): plain-language steppers for prices, costs, harvests, buyer caps, supermarket weight, city need, policy B price, policy C reserve bonus, mini-game length and skip loss. Saved in the browser (localStorage), applied to the live CONFIG, "Reset to defaults" restores the spec numbers. Changes apply to the next game. The balance script and tests always use the defaults.

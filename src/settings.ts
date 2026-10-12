@@ -109,11 +109,6 @@ export const PARAMS: Param[] = [
     help: 'How long the pest mini-game lasts.',
     get: () => CONFIG.minigame.durationSec, set: (v) => { CONFIG.minigame.durationSec = v; },
   },
-  {
-    id: 'mini.skipLoss', group: 'Pest mini-game', label: 'Crops lost when you skip it', min: 0, max: 3, step: 1,
-    help: 'Units lost to pests if you press "Skip mini-game". Capped at the most a farmer can lose.',
-    get: () => CONFIG.minigame.skipLossUnits, set: (v) => { CONFIG.minigame.skipLossUnits = v; },
-  },
 ];
 
 const DEFAULTS: Record<string, number> = Object.fromEntries(PARAMS.map((p) => [p.id, p.get()]));
