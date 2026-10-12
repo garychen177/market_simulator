@@ -1,32 +1,21 @@
-# React + TypeScript + Vite
+# Two Farmers, One City
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A short pixel-art simulation of the Chiang Mai food system (NUS UTC2720/UTS2720, Project 2). Live one farmer's life for 5 seasons (contract farmer or Mae Tha member), then see what it means for the whole city and replay the seasons with a policy switched on.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Run it
+```
+npm install
+npm run dev        # play at http://localhost:5173
+npm test           # engine + mini-game tests
+npm run simulate   # balance table (spec section 9)
+npm run build      # type-check + production build into dist/
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Structure
+- `src/config.ts`: every number in the game
+- `src/engine/`: pure game logic (no React): seasons, shocks, policies, mini-game, seeded PRNG
+- `src/content/`: fact cards, debrief questions, end-screen story
+- `src/ui/`: screens, pest mini-game, code-drawn pixel sprites (`sprites.ts`) and animated scenes (`scenes.tsx`)
+- `BUILD-LOG.md`: decisions and balance results
+
+Deploys as a static site (for example on Vercel: framework Vite, build `npm run build`, output `dist`).

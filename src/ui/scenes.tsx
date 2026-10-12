@@ -205,7 +205,7 @@ function Buildings({ closedMarket, closeDelay }: { closedMarket: boolean; closeD
       {closedMarket && (
         <>
           <Pixel name="lock" x={BUILDINGS.freshMarket.x + 6} y={BUILDINGS.freshMarket.y - 12} scale={2} className="anim pop" style={vars({ d: closeDelay, dur: 0.4 })} />
-          <div className="tag anim appear loop blink" style={vars({ d: closeDelay, dur: 0.2, loopdur: '1.2s' }, { left: BUILDINGS.freshMarket.x - 6, top: 74, fontSize: 10, padding: '0 3px' })}>CLOSED</div>
+          <div className="tag anim appear loop blink" style={vars({ d: closeDelay, dur: 0.2, loopdur: '1.2s' }, { left: BUILDINGS.freshMarket.x - 6, top: 58, fontSize: 10, padding: '0 3px' })}>CLOSED</div>
         </>
       )}
     </>
@@ -279,7 +279,7 @@ function ContractHarvest({ result, debtBefore }: { result: SeasonResult; debtBef
         dumps.push(<CrateUnit key={`d${si}-${u}`} from={from} to={target} delay={T + u * 0.12} dur={0.6} arc={34} />);
       }
     }
-    dumps.push(<SlotTag key={`t${si}`} x={s.kind === 'warehouse' ? WAREHOUSE.x - 4 : BUILDINGS[s.kind].x + 4} y={s.kind === 'warehouse' ? 78 : 136} text={s.kind === 'warehouse' ? `${s.units} rot` : `${s.units}`} delay={T + 0.3} />);
+    dumps.push(<SlotTag key={`t${si}`} x={s.kind === 'warehouse' ? WAREHOUSE.x - 16 : BUILDINGS[s.kind].x + 4} y={s.kind === 'warehouse' ? 78 : 136} text={s.kind === 'warehouse' ? `${s.units} rot` : `${s.units}`} delay={T + 0.3} />);
     T += s.units * 0.12 + 0.6;
     lastUnload = T;
   });
