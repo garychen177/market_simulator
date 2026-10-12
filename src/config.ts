@@ -31,8 +31,8 @@ export const CONFIG = {
     fieldWidthPx: 320, // logical field size; the UI scales it to fit the screen
     fieldHeightPx: 300,
     plantBandPx: 44, // pests that fall past (height - plantBandPx) hit their plant
-    spray: { spawnIntervalSec: 1.6, fallSpeedPx: 90, sprayRadiusPx: 70 },
-    hand: { spawnIntervalSec: 1.0, fallSpeedPx: 120, hitboxPx: 48 },
+    spray: { spawnIntervalSec: 0.9, fallSpeedPx: 150, sprayRadiusPx: 70 },
+    hand: { spawnIntervalSec: 0.55, fallSpeedPx: 200, hitboxPx: 48 },
   },
 
   shocks: {

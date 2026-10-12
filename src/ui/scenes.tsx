@@ -137,20 +137,24 @@ export function MaeThaStartScene({ costs, soilRecovery }: { costs: number; soilR
   );
 }
 
-/** The flood hits during planting: water rises and washes the crops away. */
+/** The flood hits during planting: it rains, the water rises, and the water sweeps the crops and produce away. */
 export function FloodGrowScene() {
+  const RISE_DELAY = 0.3;
+  const RISE_DUR = 3.4;
   return (
-    <Stage label="A flood washes the crops away">
+    <Stage label="Rain makes the water rise and sweeps the crops and produce away">
       <Backdrop sky="rain" />
-      <PlantRow className="" />
+      {Array.from({ length: 16 }, (_, i) => (
+        <Pixel key={i} name="drop" x={4 + i * 20} y={-10} scale={2} className="rain-drop" style={vars({}, { animationDelay: `${(i % 8) * 0.11}s` })} />
+      ))}
+      <div className="water anim rise smooth" style={vars({ h: 120, dur: RISE_DUR, d: RISE_DELAY })} />
       {Array.from({ length: 5 }, (_, i) => (
-        <Pixel key={i} name="plant" x={40 + i * 48} y={92} scale={3} className="anim wash" style={vars({ d: 1.8 + i * 0.2, dur: 1.2 })} />
+        <Pixel key={`c${i}`} name="crate" x={58 + i * 48} y={114} scale={2.5} className="anim sweep" style={vars({ d: 2.0 + i * 0.22, dur: 2.4, sx: '380px', sy: '-6px', r: `${30 + i * 25}deg` })} />
       ))}
-      <div className="water anim rise smooth" style={vars({ h: 110, dur: 2.6, d: 0.4 })} />
-      {Array.from({ length: 14 }, (_, i) => (
-        <Pixel key={i} name="drop" x={6 + i * 23} y={-10} scale={2} className="rain-drop" style={vars({}, { animationDelay: `${(i % 7) * 0.13}s` })} />
+      {Array.from({ length: 5 }, (_, i) => (
+        <Pixel key={`p${i}`} name="plant" x={40 + i * 48} y={92} scale={3} className="anim sweep" style={vars({ d: 2.3 + i * 0.22, dur: 2.4, sx: '400px', sy: '4px', r: `${-40 - i * 20}deg` })} />
       ))}
-      <Pixel name="farmer" x={8} y={70} scale={3} shirt="#9aa0a6" className="anim appear" style={vars({ d: 3, dur: 0.4 })} />
+      <Pixel name="farmer" x={8} y={52} scale={3} shirt="#9aa0a6" className="anim appear" style={vars({ d: 3.6, dur: 0.4 })} />
     </Stage>
   );
 }

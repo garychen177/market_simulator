@@ -9,6 +9,7 @@ import {
   CityScene, ContractStartScene, FloodGrowScene, HarvestScene, MaeThaStartScene, ReplayGrowScene, SeasonCardScene,
 } from './scenes.tsx';
 import { StatusBar } from './StatusBar.tsx';
+import { Tracker } from './Tracker.tsx';
 
 type Step = 'card' | 'start' | 'grow' | 'harvest' | 'city' | 'fact';
 const STEPS: Step[] = ['card', 'start', 'grow', 'harvest', 'city', 'fact'];
@@ -23,7 +24,6 @@ interface Props {
   onStep: () => void; // lets the shell reset "skip" for the new step
 }
 
-const round1 = (n: number) => Math.round(n * 10) / 10;
 
 function seasonLine(shock: string): string {
   return shock === 'flood' ? 'The river is rising.' : shock === 'covid' ? 'The markets are closing.' : 'A normal season.';
@@ -146,6 +146,7 @@ export function Game({ path, seed, policy, replayLosses, onFinish, onSeason, onS
 
   const lastStep = step === 'fact';
   return (
+    <div className="game-layout">
     <section className="screen" aria-live="polite">
       {scene}
       {step !== 'fact' && <p className="line">{line}</p>}
@@ -154,7 +155,6 @@ export function Game({ path, seed, policy, replayLosses, onFinish, onSeason, onS
         coins={coinsShown}
         debt={debtShown}
         reserve={reserveShown}
-        fedThisSeason={result && (step === 'city' || step === 'fact') ? round1(Math.min(result.fed, CONFIG.cityNeedPerSeason)) : null}
       />
       {!hideNext && (
         <div className="btn-row">
@@ -164,5 +164,13 @@ export function Game({ path, seed, policy, replayLosses, onFinish, onSeason, onS
         </div>
       )}
     </section>
+    <Tracker
+      path={path}
+      results={run.results}
+      current={idx}
+      showCurrent={step === 'harvest' || step === 'city' || step === 'fact'}
+      showFed={step === 'city' || step === 'fact'}
+    />
+    </div>
   );
 }

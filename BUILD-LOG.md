@@ -31,3 +31,9 @@
 ## Not done / next
 - A human playtest for timing (target about 5 minutes) and for mini-game feel on a real touch device.
 - Oxlint still reports a few React fast-refresh/hook-dependency warnings (no errors).
+
+## Round 2 changes (playtest feedback)
+- Scenes now scale to the window height so the buttons are always visible (the "Choose your farmer" button was below the fold on laptops).
+- "Households fed" removed from the status bar; a side **Season tracker** shows coins, profit, owed/reserve and households fed for every season (below the game on phones).
+- Pest mini-game: pests drawn smaller (the tap target stays 48px for touch), faster and more frequent (spray 0.9s/150px/s, hand 0.55s/200px/s). Duration is 15 seconds (CONFIG.minigame.durationSec); the first season adds a 3-second how-to overlay.
+- Flood scene: it rains, the water rises, and the water sweeps the crops and produce away. Also fixed water height not applying in the other rain scenes.

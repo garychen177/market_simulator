@@ -84,7 +84,7 @@ export default function App() {
           <button className="small-btn" aria-pressed={reduced} onClick={() => setReduced((r) => !r)}>Reduced motion</button>
           {view !== 'title' && <button className="small-btn" onClick={restart}>Start over</button>}
         </header>
-        {body}
+        {inGame ? body : <div className="narrow">{body}</div>}
       </div>
     </TimeScale.Provider>
   );

@@ -96,7 +96,7 @@ export function PestGame({ mode, seed, showHelp, onDone }: Props) {
 
   return (
     <div>
-      <div className="timer" role="progressbar" aria-valuemin={0} aria-valuemax={dur} aria-valuenow={Math.round(mini.time)} aria-label="Time left">
+      <div className="timer" style={{ maxWidth: `min(640px, max(260px, calc((100vh - 400px) * ${FIELD_W / FIELD_H})))`, margin: "0 auto 4px" }} role="progressbar" aria-valuemin={0} aria-valuemax={dur} aria-valuenow={Math.round(mini.time)} aria-label="Time left">
         <i style={{ width: `${(remaining / dur) * 100}%` }} />
       </div>
       <div
@@ -130,11 +130,11 @@ export function PestGame({ mode, seed, showHelp, onDone }: Props) {
                 style={{ left: p.x - hit / 2, top: p.y - hit / 2, width: hit, height: hit }}
                 onPointerDown={(e) => { e.stopPropagation(); state.current = tapPest(state.current, p.id); setMini(state.current); }}
               >
-                <Sprite name="pest" scale={4} />
+                <Sprite name="pest" scale={2.5} />
               </button>
             ) : (
-              <div key={p.id} style={{ left: p.x - 16, top: p.y - 16 }}>
-                <Sprite name="pest" scale={4} />
+              <div key={p.id} style={{ left: p.x - 10, top: p.y - 10 }}>
+                <Sprite name="pest" scale={2.5} />
               </div>
             ),
           )}

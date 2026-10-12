@@ -5,12 +5,11 @@ interface Props {
   coins: number;
   debt: number;
   reserve: number;
-  fedThisSeason: number | null; // null until the city step
 }
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
-export function StatusBar({ path, coins, debt, reserve, fedThisSeason }: Props) {
+export function StatusBar({ path, coins, debt, reserve }: Props) {
   const { profitBarMin, profitBarMax } = CONFIG.ui;
   const pct = Math.max(0, Math.min(100, ((coins - profitBarMin) / (profitBarMax - profitBarMin)) * 100));
   return (
@@ -38,10 +37,6 @@ export function StatusBar({ path, coins, debt, reserve, fedThisSeason }: Props) 
           <b>{round1(reserve)}</b>
         </div>
       )}
-      <div>
-        Households fed
-        <b>{fedThisSeason === null ? '-' : `${round1(fedThisSeason)}/${CONFIG.cityNeedPerSeason}`}</b>
-      </div>
     </div>
   );
 }

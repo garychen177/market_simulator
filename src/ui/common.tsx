@@ -51,7 +51,14 @@ export function Stage({ w = 320, h = 200, children, label }: { w?: number; h?: n
     return () => ro.disconnect();
   }, [w]);
   return (
-    <div ref={ref} className="stage-fit" style={{ height: h * k + 8 }} role="img" aria-label={label}>
+    <div
+      ref={ref}
+      className="stage-fit"
+      // Keep the whole screen (scene + text + buttons) visible on short windows.
+      style={{ height: h * k + 8, maxWidth: `min(640px, max(260px, calc((100vh - 400px) * ${w / h})))` }}
+      role="img"
+      aria-label={label}
+    >
       <div className="stage" style={{ width: w, height: h, transform: `scale(${k})` }}>
         {children}
       </div>
