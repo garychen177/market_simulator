@@ -37,3 +37,8 @@
 - "Households fed" removed from the status bar; a side **Season tracker** shows coins, profit, owed/reserve and households fed for every season (below the game on phones).
 - Pest mini-game: pests drawn smaller (the tap target stays 48px for touch), faster and more frequent (spray 0.9s/150px/s, hand 0.55s/200px/s). Duration is 15 seconds (CONFIG.minigame.durationSec); the first season adds a 3-second how-to overlay.
 - Flood scene: it rains, the water rises, and the water sweeps the crops and produce away. Also fixed water height not applying in the other rain scenes.
+
+## Round 3 changes
+- Context screen: "Choose your farmer" only appears after the second card has been viewed.
+- "Skip mini-game" button. Decision: skipping costs a fixed number of crop units (setting, default 1, capped per path) so skipping is not a free win.
+- Settings page (title/context screens, top bar): plain-language steppers for prices, costs, harvests, buyer caps, supermarket weight, city need, policy B price, policy C reserve bonus, mini-game length and skip loss. Saved in the browser (localStorage), applied to the live CONFIG, "Reset to defaults" restores the spec numbers. Changes apply to the next game. The balance script and tests always use the defaults.

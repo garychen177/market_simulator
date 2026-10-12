@@ -7,6 +7,7 @@ import { POLICY_TARGET, type RunSummary } from '../engine/run.ts';
 import { ContextScene, TitleScene } from './scenes.tsx';
 import { Pixel, Stage } from './common.tsx';
 import { Sprite } from './Sprite.tsx';
+import { PARAMS, applySettings, clampParam, currentValues, defaultValues, saveSettings, type Values } from '../settings.ts';
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
@@ -23,6 +24,7 @@ export function TitleScreen({ onStart }: { onStart: () => void }) {
 
 export function ContextScreen({ onNext }: { onNext: () => void }) {
   const [page, setPage] = useState(0);
+  const [seenAll, setSeenAll] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const cards = [
     { kind: 'flood' as const, fact: factById(1) },
@@ -32,6 +34,7 @@ export function ContextScreen({ onNext }: { onNext: () => void }) {
     const el = ref.current;
     if (el) el.scrollTo({ left: p * el.clientWidth, behavior: 'smooth' });
     setPage(p);
+    if (p === cards.length - 1) setSeenAll(true);
   };
   return (
     <section className="screen">
@@ -40,7 +43,9 @@ export function ContextScreen({ onNext }: { onNext: () => void }) {
         ref={ref}
         onScroll={(e) => {
           const el = e.currentTarget;
-          setPage(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+          const p = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
+          setPage(p);
+          if (p === cards.length - 1) setSeenAll(true);
         }}
       >
         {cards.map((c) => (
@@ -52,10 +57,10 @@ export function ContextScreen({ onNext }: { onNext: () => void }) {
         ))}
       </div>
       <div className="dots" aria-hidden="true">{cards.map((_, i) => <i key={i} className={i === page ? 'on' : ''} />)}</div>
-      <p className="hint">Swipe for the next card.</p>
+      <p className="hint">{seenAll ? 'Ready when you are.' : 'Read both cards to continue.'}</p>
       <div className="btn-row">
-        {page === 0 && <button className="btn alt" onClick={() => go(1)}>Next card</button>}
-        <button className="btn" onClick={onNext}>Choose your farmer</button>
+        {!seenAll && <button className="btn" onClick={() => go(1)}>Next card</button>}
+        {seenAll && <button className="btn" onClick={onNext}>Choose your farmer</button>}
       </div>
     </section>
   );
@@ -260,6 +265,65 @@ export function DebriefScreen({ onDone, onRestart }: { onDone: () => void; onRes
       <div className="btn-row">
         <button className="btn alt" onClick={() => (i === 0 ? onDone() : setI(i - 1))}>Back</button>
         <button className="btn" onClick={() => setI(i + 1)}>{i === DEBRIEF.length - 1 ? 'Finish' : 'Next'}</button>
+      </div>
+    </section>
+  );
+}
+
+export function SettingsScreen({ onBack }: { onBack: () => void }) {
+  const [values, setValues] = useState<Values>(currentValues);
+  const defaults = defaultValues();
+  const change = (id: string, v: number) => {
+    const p = PARAMS.find((x) => x.id === id);
+    if (!p) return;
+    const next = { ...values, [id]: clampParam(p, v) };
+    setValues(next);
+    applySettings(next);
+    saveSettings(next);
+  };
+  const reset = () => {
+    const d = defaultValues();
+    setValues(d);
+    applySettings(d);
+    saveSettings(d);
+  };
+  const groups = Array.from(new Set(PARAMS.map((p) => p.group)));
+  const changed = PARAMS.filter((p) => values[p.id] !== defaults[p.id]).length;
+  return (
+    <section className="screen" style={{ justifyContent: 'flex-start' }}>
+      <h2 className="line" style={{ minHeight: 0 }}>Settings</h2>
+      <p className="hint">Change how the game works. New numbers apply the next time you start a farmer.</p>
+      {groups.map((g) => (
+        <div className="panel" key={g}>
+          <h2>{g}</h2>
+          {PARAMS.filter((p) => p.group === g).map((p) => (
+            <div className="setting" key={p.id}>
+              <div className="setting-text">
+                <label htmlFor={p.id}>{p.label}</label>
+                <small>{p.help}</small>
+                {values[p.id] !== defaults[p.id] && <small className="changed">Default: {defaults[p.id]}</small>}
+              </div>
+              <div className="stepper">
+                <button className="small-btn" aria-label={`Less: ${p.label}`} onClick={() => change(p.id, values[p.id] - p.step)} disabled={values[p.id] <= p.min}>-</button>
+                <input
+                  id={p.id}
+                  type="number"
+                  inputMode="decimal"
+                  min={p.min}
+                  max={p.max}
+                  step={p.step}
+                  value={values[p.id]}
+                  onChange={(e) => e.target.value !== '' && change(p.id, Number(e.target.value))}
+                />
+                <button className="small-btn" aria-label={`More: ${p.label}`} onClick={() => change(p.id, values[p.id] + p.step)} disabled={values[p.id] >= p.max}>+</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+      <div className="btn-row">
+        <button className="btn alt" onClick={reset} disabled={changed === 0}>Reset to defaults</button>
+        <button className="btn" onClick={onBack}>Done</button>
       </div>
     </section>
   );

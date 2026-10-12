@@ -26,6 +26,7 @@ export const CONFIG = {
 
   minigame: {
     durationSec: 15,
+    skipLossUnits: 1, // crops lost to pests if the player skips the mini-game
     plants: 5,
     unitsPerPlant: 2,
     fieldWidthPx: 320, // logical field size; the UI scales it to fit the screen

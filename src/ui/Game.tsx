@@ -89,6 +89,11 @@ export function Game({ path, seed, policy, replayLosses, onFinish, onSeason, onS
     setStep('harvest');
   }, [idx, path]);
 
+  const onMiniSkip = useCallback(() => {
+    setLosses((l) => [...l.slice(0, idx), CONFIG.minigame.skipLossUnits]);
+    setStep('harvest');
+  }, [idx]);
+
   // Status numbers: the season's outcome only counts once the harvest has been shown.
   const settled = result && (step === 'harvest' || step === 'city' || step === 'fact');
   const status = settled ? result.after : prevAfter;
@@ -124,7 +129,7 @@ export function Game({ path, seed, policy, replayLosses, onFinish, onSeason, onS
       scene = <ReplayGrowScene shock={shock} />;
       line = 'The same pests come as before.';
     } else {
-      scene = <PestGame key={`${idx}-${path}`} mode={modeForPath(path)} seed={seed * 31 + idx} showHelp={idx === 0} onDone={onMiniDone} />;
+      scene = <PestGame key={`${idx}-${path}`} mode={modeForPath(path)} seed={seed * 31 + idx} showHelp={idx === 0} onDone={onMiniDone} onSkip={onMiniSkip} />;
       line = path === 'contract' ? 'Spray the pests away.' : 'Pick the pests off by hand.';
       hideNext = true;
     }

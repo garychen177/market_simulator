@@ -200,3 +200,13 @@ textarea { width: 100%; min-height: 140px; font: inherit; font-weight: 400; padd
 .tracker tr.now { background: #fff3c4; }
 .tracker .pos { color: var(--green-dark); }
 .tracker .neg { color: var(--red); }
+
+/* Settings */
+.setting { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 2px dashed #cdbf9f; }
+.setting-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.setting-text label { font-size: 15px; }
+.setting-text small { font-size: 12px; font-weight: 400; }
+.setting-text small.changed { color: var(--blue); font-weight: 700; }
+.stepper { display: flex; gap: 4px; align-items: center; flex: 0 0 auto; }
+.stepper input { width: 56px; min-height: 32px; text-align: center; font: inherit; border: 3px solid var(--ink); background: #fff; padding: 2px; }
+.stepper .small-btn { min-width: 36px; }

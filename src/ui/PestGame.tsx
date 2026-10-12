@@ -12,6 +12,7 @@ interface Props {
   seed: number;
   showHelp: boolean; // first season: 3-second "how to play" overlay
   onDone: (destroyedPlantCount: number) => void;
+  onSkip: () => void; // skip the mini-game: the loss is set in the settings
 }
 
 const FIELD_W = CONFIG.minigame.fieldWidthPx;
@@ -19,7 +20,7 @@ const FIELD_H = CONFIG.minigame.fieldHeightPx;
 const HELP_SECONDS = 3;
 
 /** One component, two modes: spray (drag a spray can) and hand (tap pests). */
-export function PestGame({ mode, seed, showHelp, onDone }: Props) {
+export function PestGame({ mode, seed, showHelp, onDone, onSkip }: Props) {
   const [mini, setMini] = useState<MiniState>(() => initMini());
   const [helping, setHelping] = useState(showHelp);
   const [spray, setSpray] = useState<{ x: number; y: number } | null>(null);
@@ -155,6 +156,9 @@ export function PestGame({ mode, seed, showHelp, onDone }: Props) {
             </div>
           )}
         </Stage>
+      </div>
+      <div className="btn-row" style={{ marginTop: 8 }}>
+        <button className="small-btn" onClick={onSkip}>Skip mini-game</button>
       </div>
     </div>
   );
